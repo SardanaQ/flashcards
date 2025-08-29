@@ -1,37 +1,30 @@
-const { ThemeService } = require('../services/themeService');
-class ThemeController {
-  static async getThemesAll(req, res) {
-    const themes = await ThemeService.getThemesAll();
-    return res.json(themes);
-  }
+const ThemeService = require('../services/themeService');
 
-  static async getTheme(req, res) {
+// Получить все темы
+exports.getAllThemes = async (req, res) => {
+  try {
+    console.log('Getting all themes...');
+    const themes = await ThemeService.getAllThemes();
+    res.json(themes);
+  } catch (error) {
+    console.error('Error in getAllThemes controller:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Получить тему по ID
+exports.getThemeById = async (req, res) => {
+  try {
     const { id } = req.params;
-    const result = await ThemeService.getTheme(id);
-    return res.json(result);
-  }
-
-  static async getQuestionsByTheme(req, res) {
-    const { themeId } = req.params;
-    try {
-      const question = await ThemeService.getQuestionsByTheme(themeId);
-      return res.json(question);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
+    const theme = await ThemeService.getThemeById(id);
+    
+    if (!theme) {
+      return res.status(404).json({ error: 'Theme not found' });
     }
+    
+    res.json(theme);
+  } catch (error) {
+    console.error('Error in getThemeById controller:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  static async getOneQuestion(req, res) {
-    const { id } = req.params;
-    try {
-      const question = await ThemeService.getOneQuestion(id);
-      return res.json(question);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
-  }
-}
-
-module.exports = ThemeController;
+};
