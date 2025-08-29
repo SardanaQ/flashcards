@@ -1,23 +1,27 @@
 const { Theme } = require('../../db/models');
 
-const { Question } = require('../../db/models/');
-
 class ThemeService {
-  static async getThemesAll() {
-    const themes = await Theme.findAll();
-    return themes;
+  // Получить все темы
+  static async getAllThemes() {
+    try {
+      const themes = await Theme.findAll();
+      return themes;
+    } catch (error) {
+      console.error('Error in getAllThemes:', error);
+      throw error;
+    }
   }
 
-  static async getTheme(id) {
-    const theme = await Theme.findByPk(id);
-    return theme;
-  }
-
-  static async getQuestions(themeId) {
-    return Questions.findAll({ where: { themeId } });
-  }
-  static async getOneQuestion(id) {
-    return Question.findByPk(id);
+  // Получить тему по ID
+  static async getThemeById(id) {
+    try {
+      const theme = await Theme.findByPk(id);
+      return theme;
+    } catch (error) {
+      console.error('Error in getThemeById:', error);
+      throw error;
+    }
   }
 }
+
 module.exports = ThemeService;
