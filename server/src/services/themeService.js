@@ -1,5 +1,7 @@
 const { Theme } = require('../../db/models');
-const { Questions } = require('../../db/models');
+
+const { Question } = require('../../db/models/');
+
 class ThemeService {
   static async getThemesAll() {
     const themes = await Theme.findAll();

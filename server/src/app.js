@@ -1,6 +1,7 @@
 const express = require('express');
 const serverConfig = require('./configs/serverConfig');
 const themesRoutes = require("./routes/themesRoutes")
+require('dotenv').config()
 const app = express();
 serverConfig(app);
 
